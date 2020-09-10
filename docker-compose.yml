@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  server:
+    image: songs/api-server
+    hostname: api-server
+    ports:
+      - "8888:8888"
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - "database"
+    networks:
+      songs-net:
+        ipv4_address: 172.0.1.2
+  database:
+    image: mongo
+    hostname: database
+    ports:
+      - "27017-27019:27017-27019"
+    expose:
+      - "27017-27019"
+    networks:
+      songs-net:
+        ipv4_address: 172.0.1.3
+    # restart: always
+    environment:
+      MONGO_INITDB_DATABASE: songs
+      MONGO_INITDB_ROOT_USERNAME: carboleda
+      MONGO_INITDB_ROOT_PASSWORD: patagonian
+    volumes:
+      - ./src/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./mongo-volumes:/data/db
+networks:
+  songs-net:
+    external: false
+    ipam:
+      config:
+        - subnet: '172.0.1.0/24'
+        #- gateway: '172.0.1.1'

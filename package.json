@@ -1,0 +1,49 @@
+{
+  "name": "patagonian-backend-challenge",
+  "version": "1.0.0",
+  "description": "Challenge para candidatos a Backend Developers - PatagonianTech",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "start": "node dist/src/index.js",
+    "dev": "./node_modules/.bin/run-s copy:env:dev build:nodemon",
+    "test": "jest",
+    "prebuild": "rm -Rf dist",
+    "build": "./node_modules/.bin/tsc",
+    "build:nodemon": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
+    "build:doc": "raml2html -i docs/api.raml -o docs/api.html",
+    "postbuild": "npm run copy:all",
+    "copy:config": "./node_modules/.bin/cpy 'config/**/*' 'config/**/.*' '!**/*.ts' ./dist/ --no-overwrite --parents",
+    "copy:initdb": "./node_modules/.bin/cpy 'src/init-mongo.js' ./dist/ --no-overwrite --parents",
+    "copy:env:dev": "./node_modules/.bin/cpy './config/.env.dev' './' --rename='.env' --overwrite",
+    "copy:all": "./node_modules/.bin/run-s copy:config copy:initdb"
+  },
+  "keywords": [],
+  "author": "carboleda",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.0.0",
+    "@hapi/joi": "^17.1.1",
+    "@types/node": "13.7.7",
+    "@types/hapi__hapi": "^20.0.0",
+    "@types/hapi__joi": "^17.1.4",
+    "@types/mongodb": "^3.5.27",
+    "base-64": "^0.1.0",
+    "bluebird": "3.5.5",
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.6.1",
+    "typescript": "^3.8.3",
+    "cpy-cli": "3.1.0",
+    "npm-run-all": "4.1.5"
+  },
+  "devDependencies": {
+    "@types/jest": "25.1.4",
+    "@typescript-eslint/eslint-plugin": "2.22.0",
+    "@typescript-eslint/parser": "2.22.0",
+    "eslint": "6.8.0",
+    "jest": "25.1.0",
+    "nodemon": "^2.0.4",
+    "raml2html": "^7.6.0",
+    "ts-jest": "25.2.1",
+    "ts-node": "^9.0.0"
+  }
+}

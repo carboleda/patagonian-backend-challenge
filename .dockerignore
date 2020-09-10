@@ -1,0 +1,10 @@
+mongo-volumes
+node_modules
+dist
+docs
+test
+Dockerfile
+docker-compose.yml
+.editorconfig
+.dockerignore
+.git
