@@ -10,3 +10,7 @@ indent_size = 4
 [*.json]
 indent_style = space
 indent_size = 2
+
+[*.raml]
+indent_style = space
+indent_size = 2

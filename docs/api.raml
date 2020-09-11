@@ -14,6 +14,21 @@ mediaType: application/json
         minLength: 3
         type: string
         example: "Red Hot Chili"
+      limit:
+        description: "The number of song to return. Default: 20. Minimum: 1. Maximum: 50"
+        required: false
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 30
+        example: "limit=2"
+      offset:
+        description: "The base zero index of the first song to return. Default: 0 (i.e., the first album). Use with `limit` to get the next set of songs"
+        required: false
+        type: integer
+        minimum: 0
+        default: 0
+        example: "offset=20"
     responses:
       200:
         body:
@@ -29,8 +44,35 @@ mediaType: application/json
                     "songId": "1TuxZ7JU323uw46aR7qd6V",
                     "songTitle": "Otherside"
                   }
-                ]
+                ],
+                "limit": 2,
+                "offset": 20,
+                "total": 500,
+                "next": "https://localhost/v1/songs?offset=22&limit=2&artistName=Red+Hot+Chili",
+                "previous": "https://localhost/v1/songs?offset=18&limit=2&artistName=Red+Hot+Chili",
               }
+  /populate:
+    description: Populate songs with Spofify data
+    get:
+      description: Loads into a database all the songs from a list of Artist's IDs from Spotify’s public Web API.
+      queryParameters:
+        ids:
+          description: "A comma-separated list of the Spotify IDs for the Artists. Maximum: 50 IDs."
+          required: true
+          minLength: 22
+          type: string
+          example: "6rqhFgbbKwnb9MLmUQDhG6,0LyfQWJT6nXafLPZqxe9Of"
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {"message": "Song database was successfully populated", count: 500}
+        500:
+          body:
+            application/json:
+              example: |
+                {"message": "Unexpected error while populate the song database"}
   /{songId}:
     description: Song entity
     get:
