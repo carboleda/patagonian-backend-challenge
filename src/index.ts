@@ -1,13 +1,15 @@
 import Server from './server';
+import MongoDatabase from './db/mongo';
 
+const server = new Server(new MongoDatabase());
 (async () => {
-    await Server.start();
+    await server.start();
 })();
 
 process.on('SIGINT', () => {
     console.info('Stopping hapi server');
 
-    Server.stop().then((error: any) => {
+    server.stop().then((error: any) => {
         console.info(`Server stopped`);
         process.exit(error ? 1 : 0);
     });
