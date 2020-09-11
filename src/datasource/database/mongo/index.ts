@@ -1,5 +1,5 @@
 import { MongoClient, Db } from 'mongodb';
-import Database from '../database';
+import Database from '../';
 
 export default class MongoDatabase implements Database<Db> {
     private _instance: MongoClient | null;

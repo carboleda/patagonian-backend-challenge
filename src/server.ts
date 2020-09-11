@@ -1,6 +1,6 @@
 import * as DotEnv from 'dotenv';
 import * as Hapi from '@hapi/hapi';
-import Database from './db/database';
+import Database from './datasource/database';
 import Router from './router';
 
 export default class Server {
@@ -11,6 +11,7 @@ export default class Server {
     public async start() {
         DotEnv.config({ path: `${process.cwd()}/.env` });
 
+        // TODO: EXTERNALIZE PORT IN .ENV OR DOCKER-COMPOSE FILE
         this._instance = Hapi.server({
             port: 8888,
             host: '0.0.0.0'

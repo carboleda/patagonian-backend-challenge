@@ -1,9 +1,7 @@
 import Respository from './repository';
 
-export default abstract class UseCase<DB> {
-    constructor(protected repository: Respository<DB>) {}
+export default abstract class UseCase<T> {
+    constructor(protected repository: Respository<T>) {}
 
-    async exec(...args: any[]): Promise<any> {
-        return this.repository.exec(args);
-    }
+    abstract async exec(...args: any[]): Promise<any>;
 }

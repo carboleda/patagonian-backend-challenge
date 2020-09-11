@@ -1,5 +1,5 @@
 import Server from './server';
-import MongoDatabase from './db/mongo';
+import MongoDatabase from './datasource/database/mongo';
 
 const server = new Server(new MongoDatabase());
 (async () => {

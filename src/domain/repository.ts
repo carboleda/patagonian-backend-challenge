@@ -1,9 +1,5 @@
-import Database from '../db/database';
-
 export default abstract class Respository<T> {
-    constructor(protected database: Database<T>) {}
+    constructor(protected dataSource: T) {}
 
-    async exec(...args: any[]): Promise<any> {
-        return null;
-    }
+    abstract async exec(...args: any[]): Promise<any>;
 }

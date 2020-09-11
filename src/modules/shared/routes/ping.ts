@@ -2,7 +2,7 @@ import * as Hapi from '@hapi/hapi';
 import IRoute from '../../../domain/route';
 import PingUseCase from '../use-case/ping';
 import PingRepository from '../repository/ping';
-import Database from '../../../db/database';
+import Database from '../../../datasource/database';
 
 export default class PingRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
