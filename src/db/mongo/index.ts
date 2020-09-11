@@ -1,25 +1,25 @@
-import { throws } from 'assert';
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import Database from '../database';
 
-export default class MongoDatabase implements Database<MongoClient> {
+export default class MongoDatabase implements Database<Db> {
     private _instance: MongoClient | null;
+    private databaseName: string | undefined;
 
     constructor() {
         this._instance = null;
+        this.databaseName = process.env.DATABASE_NAME;
     }
 
     async connect(): Promise<void> {
         // Connection URI
         const uri: string = process.env.DATABASE_CONNECTION_URI!!;
-        console.log('uri', uri);
 
         // Create a new MongoClient
         this._instance = new MongoClient(uri, { useUnifiedTopology: true });
 
         // Connect the client to the server
         await this._instance.connect();
-        await this.ping();
+        console.log('Connected successfully to server');
     }
 
     async close(): Promise<void> {
@@ -28,29 +28,29 @@ export default class MongoDatabase implements Database<MongoClient> {
             await this._instance?.close();
             console.log('Disconnected successfully from server');
         } catch(error) {
-            console.log('Connection error');
+            console.error('Connection error');
         }
     }
 
     async ping(): Promise<boolean> {
         try {
             // Establish and verify connection
-            await this._instance?.db('songs').command({ ping: 1 });
-            console.log('Connected successfully to server');
+            await this._instance?.db(this.databaseName).command({ ping: 1 });
+            console.log('Ping successfully to server');
 
             return true;
         } catch(error) {
-            console.log('Connection error');
+            console.error('Connection error');
         }
 
         return false;
     }
 
-    async getConnection(): Promise<MongoClient> {
+    async getConnection(): Promise<Db> {
         if (this._instance === null) {
             throw new Error('Connection is unavailable');
         }
 
-        return this._instance;
+        return this._instance.db(this.databaseName);
     }
 }

@@ -1,13 +1,12 @@
 import * as DotEnv from 'dotenv';
 import * as Hapi from '@hapi/hapi';
 import Database from './db/database';
+import Router from './router';
 
 export default class Server {
-    private _instance: Hapi.Server | null;
+    private _instance: Hapi.Server | null = null;
 
-    constructor(private database: Database<any>) {
-        this._instance = null;
-    }
+    constructor(private database: Database<any>) {}
 
     public async start() {
         DotEnv.config({ path: `${process.cwd()}/.env` });
@@ -17,23 +16,10 @@ export default class Server {
             host: '0.0.0.0'
         });
 
+        await Router.loadRoutes(this._instance, this.database);
         await this._instance.start();
         await this.database.connect();
         console.log('Server running on %s', this._instance.info.uri);
-
-        this._instance.route({
-            method: 'GET',
-            path: '/hello',
-            handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-                try {
-                    await this.database.ping();
-                    return h.response({ success: true });
-                } catch (error) {
-                    console.error(error);
-                    return h.response({ success: false, error });
-                }
-            }
-        });
     };
 
     public async stop() {
