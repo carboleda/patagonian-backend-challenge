@@ -1,4 +1,3 @@
-import { runInThisContext } from "vm";
 import UseCase from "../../../domain/UseCase";
 
 export default class DatabasePingUseCase extends UseCase<any> {

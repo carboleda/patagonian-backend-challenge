@@ -26,7 +26,7 @@ services:
         ipv4_address: 172.0.1.3
     # restart: always
     environment:
-      MONGO_INITDB_DATABASE: songs
+      MONGO_INITDB_DATABASE: challenge
       MONGO_INITDB_ROOT_USERNAME: carboleda
       MONGO_INITDB_ROOT_PASSWORD: patagonian
     volumes:

@@ -3,11 +3,9 @@ import Database from '../';
 
 export default class MongoDatabase implements Database<Db> {
     private _instance: MongoClient | null;
-    private databaseName: string | undefined;
 
     constructor() {
         this._instance = null;
-        this.databaseName = process.env.DATABASE_NAME;
     }
 
     async connect(): Promise<void> {
@@ -35,7 +33,7 @@ export default class MongoDatabase implements Database<Db> {
     async ping(): Promise<boolean> {
         try {
             // Establish and verify connection
-            await this._instance?.db(this.databaseName).command({ ping: 1 });
+            await this._instance?.db().command({ ping: 1 });
             console.log('Ping successfully to server');
 
             return true;
@@ -51,6 +49,6 @@ export default class MongoDatabase implements Database<Db> {
             throw new Error('Connection is unavailable');
         }
 
-        return this._instance.db(this.databaseName);
+        return this._instance.db();
     }
 }
