@@ -20,7 +20,7 @@ mediaType: application/json
         type: integer
         minimum: 1
         maximum: 50
-        default: 30
+        default: 20
         example: "limit=2"
       offset:
         description: "The base zero index of the first song to return. Default: 0 (i.e., the first album). Use with `limit` to get the next set of songs"
@@ -48,8 +48,8 @@ mediaType: application/json
                 "limit": 2,
                 "offset": 20,
                 "total": 500,
-                "next": "https://localhost/v1/songs?offset=22&limit=2&artistName=Red+Hot+Chili",
-                "previous": "https://localhost/v1/songs?offset=18&limit=2&artistName=Red+Hot+Chili",
+                "next": "http://localhost/api/v1/songs?offset=22&limit=2&artistName=Red+Hot+Chili",
+                "previous": "http://localhost/api/v1/songs?offset=18&limit=2&artistName=Red+Hot+Chili"
               }
   /populate:
     description: Populate songs with Spofify data

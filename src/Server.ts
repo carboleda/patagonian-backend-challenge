@@ -16,7 +16,6 @@ export default class Server {
             port: 8888,
             host: '0.0.0.0'
         });
-
         this._instance.validator(require('@hapi/joi'));
         await Router.loadRoutes(this._instance, this.database);
         await this._instance.start();

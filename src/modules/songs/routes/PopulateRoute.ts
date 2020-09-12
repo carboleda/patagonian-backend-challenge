@@ -19,27 +19,34 @@ import Database from '../../../datasource/database';
 export default class DatabasePingRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
         const api = new Api(new AxiosRequestClient());
+        const spofifyAuthRepository = new SpofifyAuthRepository(api);
+        const spofifyAuthUseCase = new SpofifyAuthUseCase(spofifyAuthRepository);
+        const getAllByArtistIdSpotifyRepository = new GetAllByArtistIdSpotifyRepository(api);
+        const getAllByArtistIdUseCase = new GetAllByArtistIdUseCase(getAllByArtistIdSpotifyRepository);
+        const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofifyRepository(api);
+        const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
+        const deleteAllSongsDatabaseRepository = new DeleteAllSongsDatabaseRepository(database);
+        const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsDatabaseRepository);
+
+        const repository = new SaveSongsDatabase(database);
+        const useCase = new PopulateUseCase(
+            repository, spofifyAuthUseCase, getAllByArtistIdUseCase,
+            getSongsByAlbumIdUseCase, deleteAllSongsUseCase
+        );
+
         server.route({
             method: 'GET',
             path: '/api/v1/songs/populate',
+            options: {
+                validate: {
+                    query: {
+                        ids: Joi.string().min(22).max(1149).required()
+                    }
+                }
+            },
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
                     const { ids } = request.query;
-                    const spofifyAuthRepository = new SpofifyAuthRepository(api);
-                    const spofifyAuthUseCase = new SpofifyAuthUseCase(spofifyAuthRepository);
-                    const getAllByArtistIdSpotifyRepository = new GetAllByArtistIdSpotifyRepository(api);
-                    const getAllByArtistIdUseCase = new GetAllByArtistIdUseCase(getAllByArtistIdSpotifyRepository);
-                    const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofifyRepository(api);
-                    const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
-                    const deleteAllSongsDatabaseRepository = new DeleteAllSongsDatabaseRepository(database);
-                    const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsDatabaseRepository);
-
-                    const repository = new SaveSongsDatabase(database);
-                    const useCase = new PopulateUseCase(
-                        repository, spofifyAuthUseCase, getAllByArtistIdUseCase,
-                        getSongsByAlbumIdUseCase, deleteAllSongsUseCase
-                    );
-
                     const clientId = process.env.SPOTIFY_CLIENT_ID!!;
                     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
                     const result = await useCase.exec(clientId, clientSecret, ids);
@@ -48,14 +55,7 @@ export default class DatabasePingRoute implements IRoute {
                     console.error(error);
                     return h.response({ success: false, error });
                 }
-            },
-            options: {
-                validate: {
-                    query: {
-                        ids: Joi.string().min(22).max(1149).required()
-                    }
-                }
-            },
+            }
         });
     }
 }
