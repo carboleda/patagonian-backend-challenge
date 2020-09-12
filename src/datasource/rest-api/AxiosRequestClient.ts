@@ -1,4 +1,4 @@
-import { IRestClient, Endpoint, Methods } from './client';
+import { IRestClient, Endpoint, Methods } from './Client';
 import axios from 'axios';
 
 export default class AxiosRequestClient implements IRestClient {

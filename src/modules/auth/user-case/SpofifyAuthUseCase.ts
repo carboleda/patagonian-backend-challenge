@@ -1,4 +1,4 @@
-import UseCase from "../../../domain/use-case";
+import UseCase from "../../../domain/UseCase";
 
 export default class SpofifyAuthUseCase extends UseCase<any> {
     async exec(clientId: string, secretKey: string): Promise<any> {

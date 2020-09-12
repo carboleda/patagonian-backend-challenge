@@ -1,6 +1,6 @@
-import { Methods } from "../../../datasource/rest-api/client";
-import Api from "../../../datasource/rest-api/api";
-import Respository from "../../../domain/repository";
+import { Methods } from "../../../datasource/rest-api/Client";
+import Api from "../../../datasource/rest-api/Api";
+import Respository from "../../../domain/Repository";
 import * as base64 from 'base-64';
 import * as qs from 'querystring';
 

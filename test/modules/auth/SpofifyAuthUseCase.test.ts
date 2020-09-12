@@ -1,8 +1,8 @@
 import _ from '../../load-env';
-import Api from '../../../src/datasource/rest-api/api';
-import AxiosRequestClient from '../../../src/datasource/rest-api/axios-client';
-import SpofifyAuthRepository from '../../../src/modules/auth/repository/spofify-auth';
-import SpofifyAuthUseCase from '../../../src/modules/auth/user-case/spofify-auth';
+import Api from '../../../src/datasource/rest-api/Api';
+import AxiosRequestClient from '../../../src/datasource/rest-api/AxiosRequestClient';
+import SpofifyAuthRepository from '../../../src/modules/auth/repository/SpofifyAuthRepository';
+import SpofifyAuthUseCase from '../../../src/modules/auth/user-case/SpofifyAuthUseCase';
 
 describe('Test spotify authorization', () => {
     test('Authorization is success when data is correct', async () => {

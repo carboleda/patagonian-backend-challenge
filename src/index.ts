@@ -1,4 +1,4 @@
-import Server from './server';
+import Server from './Server';
 import MongoDatabase from './datasource/database/mongo';
 
 const server = new Server(new MongoDatabase());

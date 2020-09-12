@@ -1,7 +1,7 @@
 import * as DotEnv from 'dotenv';
 import * as Hapi from '@hapi/hapi';
 import Database from './datasource/database';
-import Router from './router';
+import Router from './Router';
 
 export default class Server {
     private _instance: Hapi.Server | null = null;

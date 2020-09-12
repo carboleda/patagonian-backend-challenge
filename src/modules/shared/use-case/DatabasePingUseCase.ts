@@ -1,7 +1,7 @@
 import { runInThisContext } from "vm";
-import UseCase from "../../../domain/use-case";
+import UseCase from "../../../domain/UseCase";
 
-export default class PingUseCase extends UseCase<any> {
+export default class DatabasePingUseCase extends UseCase<any> {
     async exec(): Promise<boolean> {
         return await this.repository.exec();
     }

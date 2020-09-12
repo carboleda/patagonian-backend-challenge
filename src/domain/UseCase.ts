@@ -1,4 +1,4 @@
-import Respository from './repository';
+import Respository from './Repository';
 
 export default abstract class UseCase<T> {
     constructor(protected repository: Respository<T>) {}
