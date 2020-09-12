@@ -2,7 +2,7 @@ import UseCase from "../../../domain/UseCase";
 
 export default class GetAllByArtistIdUseCase extends UseCase<any> {
     async exec(accessToken: string, tokenType: string, artistId: string): Promise<Array<string>> {
-        const limit = 50;
+        const limit = 50; //FIXME: EXTERNALIZE TO CONSTANTS
         let offset = 0;
         let hasMore = false;
         let albumIds = Array<string>();
