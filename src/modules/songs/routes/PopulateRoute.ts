@@ -4,11 +4,13 @@ import IRoute from '../../../domain/IRoute';
 import Api from '../../../datasource/rest-api/Api';
 import AxiosRequestClient from '../../../datasource/rest-api/AxiosRequestClient';
 import SpofifyAuthRepository from '../../auth/repository/SpofifyAuthRepository';
+import SpofifyAuthUseCase from '../../auth/user-case/SpofifyAuthUseCase';
 import GetAllByArtistIdSpotifyRepository from '../../albums/repository/GetAllByArtistIdSpotify';
 import GetAllByArtistIdUseCase from '../../albums/use-case/GetAllByArtistIdUseCase';
-import SpofifyAuthUseCase from '../../auth/user-case/SpofifyAuthUseCase';
-import GetSongsByAlbumIdUseCase from '../use-case/GetSongsByAlbumIdUseCase';
 import GetSongsByAlbumIdSpofifyRepository from '../repository/GetSongsByAlbumIdSpofify';
+import GetSongsByAlbumIdUseCase from '../use-case/GetSongsByAlbumIdUseCase';
+import DeleteAllSongsDatabaseRepository from '../repository/DeleteAllSongsDatabase';
+import DeleteAllSongsUseCase from '../use-case/DeleteAllSongsUseCase';
 
 import PopulateUseCase from '../use-case/PopulateUseCase';
 import SaveSongsDatabase from '../repository/SaveSongsDatabase';
@@ -29,10 +31,13 @@ export default class DatabasePingRoute implements IRoute {
                     const getAllByArtistIdUseCase = new GetAllByArtistIdUseCase(getAllByArtistIdSpotifyRepository);
                     const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofifyRepository(api);
                     const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
+                    const deleteAllSongsDatabaseRepository = new DeleteAllSongsDatabaseRepository(database);
+                    const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsDatabaseRepository);
 
                     const repository = new SaveSongsDatabase(database);
                     const useCase = new PopulateUseCase(
-                        repository, spofifyAuthUseCase, getAllByArtistIdUseCase, getSongsByAlbumIdUseCase
+                        repository, spofifyAuthUseCase, getAllByArtistIdUseCase,
+                        getSongsByAlbumIdUseCase, deleteAllSongsUseCase
                     );
 
                     const clientId = process.env.SPOTIFY_CLIENT_ID!!;
