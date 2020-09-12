@@ -1,4 +1,4 @@
-import { IRestClient, Endpoint } from './Client';
+import { IRestClient, Endpoint } from './Client;
 
 export default class Api {
 

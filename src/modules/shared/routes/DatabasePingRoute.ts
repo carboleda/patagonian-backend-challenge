@@ -8,7 +8,7 @@ export default class DatabasePingRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
         server.route({
             method: 'GET',
-            path: '/ping',
+            path: '/api/v1/ping',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
                     const repository = new DatabasePingRepository(database);

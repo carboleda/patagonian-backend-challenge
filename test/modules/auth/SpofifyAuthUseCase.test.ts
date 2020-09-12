@@ -1,4 +1,4 @@
-import _ from '../../load-env';
+import _ from '../../LoadEnv';
 import Api from '../../../src/datasource/rest-api/Api';
 import AxiosRequestClient from '../../../src/datasource/rest-api/AxiosRequestClient';
 import SpofifyAuthRepository from '../../../src/modules/auth/repository/SpofifyAuthRepository';
