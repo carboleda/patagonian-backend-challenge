@@ -1,6 +1,10 @@
 import { MongoClient, Db } from 'mongodb';
 import Database from '../';
 
+export enum MongoCollection {
+    SONGS = 'songs'
+}
+
 export default class MongoDatabase implements Database<Db> {
     private _instance: MongoClient | null;
 

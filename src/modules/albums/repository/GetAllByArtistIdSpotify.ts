@@ -1,11 +1,13 @@
 import { Methods } from "../../../datasource/rest-api/Client";
 import Api from "../../../datasource/rest-api/Api";
 import Respository from "../../../domain/Repository";
+import Constants from "../../../helpers/Constants";
 
 export default class GetAllByArtistIdSpotify extends Respository<Api> {
     async exec(
-        accessToken: string, tokenType: string,
-        artistId: string, limit: number = 20, offset: number = 0
+        accessToken: string, tokenType: string, artistId: string,
+        limit: number = Constants.PAGING_DEFAULT_LIMIT,
+        offset: number = Constants.PAGING_DEFAULT_OFFSET
     ): Promise<any> {
         const response = await this.dataSource.request({
             url: 'https://api.spotify.com/v1/artists/{artistId}/albums?limit={limit}&offset={offset}',

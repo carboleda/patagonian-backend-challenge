@@ -1,13 +1,13 @@
 import * as Hapi from '@hapi/hapi';
 import * as Joi from '@hapi/joi';
 import IRoute from '../../../domain/IRoute';
-import GetSongsDatabase from '../repository/GetSongsDatabase';
-import GetSongsUseCase from '../use-case/GetSongsUseCase';
 import Database from '../../../datasource/database';
+import GetSongsMongodb from '../repository/GetSongsMongodb';
+import GetSongsUseCase from '../use-case/GetSongsUseCase';
 
 export default class GetSongsRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
-        const repository = new GetSongsDatabase(database);
+        const repository = new GetSongsMongodb(database);
         const useCase = new GetSongsUseCase(repository);
 
         server.route({

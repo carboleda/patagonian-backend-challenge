@@ -1,6 +1,7 @@
 import * as Hapi from '@hapi/hapi';
 import * as Joi from '@hapi/joi';
 import IRoute from '../../../domain/IRoute';
+import Database from '../../../datasource/database';
 import Api from '../../../datasource/rest-api/Api';
 import AxiosRequestClient from '../../../datasource/rest-api/AxiosRequestClient';
 import SpofifyAuthRepository from '../../auth/repository/SpofifyAuthRepository';
@@ -9,12 +10,11 @@ import GetAllByArtistIdSpotifyRepository from '../../albums/repository/GetAllByA
 import GetAllByArtistIdUseCase from '../../albums/use-case/GetAllByArtistIdUseCase';
 import GetSongsByAlbumIdSpofifyRepository from '../repository/GetSongsByAlbumIdSpofify';
 import GetSongsByAlbumIdUseCase from '../use-case/GetSongsByAlbumIdUseCase';
-import DeleteAllSongsDatabaseRepository from '../repository/DeleteAllSongsDatabase';
+import DeleteAllSongsMongodbRepository from '../repository/DeleteAllSongsMongodb';
 import DeleteAllSongsUseCase from '../use-case/DeleteAllSongsUseCase';
 
 import PopulateUseCase from '../use-case/PopulateUseCase';
-import SaveSongsDatabase from '../repository/SaveSongsDatabase';
-import Database from '../../../datasource/database';
+import SaveSongsMongodb from '../repository/SaveSongsMongodb';
 
 export default class DatabasePingRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
@@ -25,10 +25,10 @@ export default class DatabasePingRoute implements IRoute {
         const getAllByArtistIdUseCase = new GetAllByArtistIdUseCase(getAllByArtistIdSpotifyRepository);
         const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofifyRepository(api);
         const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
-        const deleteAllSongsDatabaseRepository = new DeleteAllSongsDatabaseRepository(database);
-        const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsDatabaseRepository);
+        const deleteAllSongsMongodbRepository = new DeleteAllSongsMongodbRepository(database);
+        const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsMongodbRepository);
 
-        const repository = new SaveSongsDatabase(database);
+        const repository = new SaveSongsMongodb(database);
         const useCase = new PopulateUseCase(
             repository, spofifyAuthUseCase, getAllByArtistIdUseCase,
             getSongsByAlbumIdUseCase, deleteAllSongsUseCase
