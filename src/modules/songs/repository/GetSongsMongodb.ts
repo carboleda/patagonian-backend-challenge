@@ -6,8 +6,8 @@ import Constants from "../../../helpers/Constants";
 
 export default class SaveSongsMongodb extends Respository<Database<Db>> {
     async exec(
-        artistName: string, limit: number = Constants.PAGING_DEFAULT_LIMIT,
-        offset: number = Constants.PAGING_DEFAULT_OFFSET
+        artistName: string, limit: number = Constants.MY_API_PAGING.DEFAULT_LIMIT,
+        offset: number = Constants.MY_API_PAGING.DEFAULT_OFFSET
     ): Promise<any> {
         const db = await this.dataSource.getConnection();
         const filter = {

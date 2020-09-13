@@ -34,8 +34,8 @@ export default class PopulateUseCase extends UseCase<any> {
                     authResponse.access_token, authResponse.token_type, albumId
                 );
 
-                await Bluebird.delay(Constants.POPULATE_DELAY);
-            }, { concurrency: Constants.POPULATE_CONCURRENCY });
+                await Bluebird.delay(Constants.POPULATE.DELAY);
+            }, { concurrency: Constants.POPULATE.CONCURRENCY });
 
             return albumIds;
         }));
@@ -43,7 +43,9 @@ export default class PopulateUseCase extends UseCase<any> {
 
     async getSongsByAlbum(accessToken: string, tokenType: string, albumId: string) {
         try {
-            const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(accessToken, tokenType, albumId);
+            const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(
+                accessToken, tokenType, albumId
+            );
             songs.forEach(song => console.log(song.name));
             return await this.repository.exec(songs);
         } catch (error) {

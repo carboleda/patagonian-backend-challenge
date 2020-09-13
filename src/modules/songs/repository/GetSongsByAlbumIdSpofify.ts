@@ -9,8 +9,8 @@ export default class GetSongsByAlbumIdSpofify extends Respository<Api> {
 
     async exec(
         accessToken: string, tokenType: string, albumId: string,
-        limit: number = Constants.PAGING_DEFAULT_LIMIT,
-        offset: number = Constants.PAGING_DEFAULT_OFFSET
+        limit: number = Constants.MY_API_PAGING.DEFAULT_LIMIT,
+        offset: number = Constants.MY_API_PAGING.DEFAULT_OFFSET
     ): Promise<any> {
         try {
             const response = await this.dataSource.request({

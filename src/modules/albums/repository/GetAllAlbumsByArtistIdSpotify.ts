@@ -9,8 +9,8 @@ export default class GetAllAlbumsByArtistIdSpotify extends Respository<Api> {
 
     async exec(
         accessToken: string, tokenType: string, artistId: string,
-        limit: number = Constants.PAGING_DEFAULT_LIMIT,
-        offset: number = Constants.PAGING_DEFAULT_OFFSET
+        limit: number = Constants.SPOFIFY_API_PAGING.DEFAULT_LIMIT,
+        offset: number = Constants.SPOFIFY_API_PAGING.DEFAULT_OFFSET
     ): Promise<any> {
         try {
             const response = await this.dataSource.request({

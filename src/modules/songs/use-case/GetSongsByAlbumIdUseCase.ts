@@ -1,9 +1,10 @@
 import UseCase from "../../../domain/UseCase";
+import Constants from "../../../helpers/Constants";
 
 export default class GetSongsByAlbumIdUseCase extends UseCase<any> {
     async exec(accessToken: string, tokenType: string, albumId: string): Promise<Array<string>> {
-        const limit = 50; //FIXME: EXTERNALIZE TO CONSTANTS
-        let offset = 0;
+        const limit = Constants.SPOFIFY_API_PAGING.MAX_LIMIT!!;
+        let offset = Constants.SPOFIFY_API_PAGING.DEFAULT_OFFSET;
         let hasMore = false;
         let songs = Array<any>();
 
