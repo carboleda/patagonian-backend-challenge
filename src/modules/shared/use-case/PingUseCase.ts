@@ -1,6 +1,6 @@
 import UseCase from "../../../domain/UseCase";
 
-export default class DatabasePingUseCase extends UseCase<any> {
+export default class PingUseCase extends UseCase<any> {
     async exec(): Promise<boolean> {
         return await this.repository.exec();
     }

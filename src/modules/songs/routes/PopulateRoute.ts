@@ -4,33 +4,34 @@ import IRoute from '../../../domain/IRoute';
 import Database from '../../../datasource/database';
 import Api from '../../../datasource/rest-api/Api';
 import AxiosRequestClient from '../../../datasource/rest-api/AxiosRequestClient';
-import SpofifyAuthRepository from '../../auth/repository/SpofifyAuthRepository';
-import SpofifyAuthUseCase from '../../auth/user-case/SpofifyAuthUseCase';
-import GetAllByArtistIdSpotifyRepository from '../../albums/repository/GetAllByArtistIdSpotify';
-import GetAllByArtistIdUseCase from '../../albums/use-case/GetAllByArtistIdUseCase';
-import GetSongsByAlbumIdSpofifyRepository from '../repository/GetSongsByAlbumIdSpofify';
+import AuthSpofify from '../../auth/repository/AuthSpofify';
+import AuthUseCase from '../../auth/user-case/AuthUseCase';
+import GetAllAlbumsByArtistIdSpotify from '../../albums/repository/GetAllAlbumsByArtistIdSpotify';
+import GetAllAlbumsByArtistIdUseCase from '../../albums/use-case/GetAllAlbumsByArtistIdUseCase';
+import GetSongsByAlbumIdSpofify from '../repository/GetSongsByAlbumIdSpofify';
 import GetSongsByAlbumIdUseCase from '../use-case/GetSongsByAlbumIdUseCase';
-import DeleteAllSongsMongodbRepository from '../repository/DeleteAllSongsMongodb';
+import DeleteAllSongsMongodb from '../repository/DeleteAllSongsMongodb';
 import DeleteAllSongsUseCase from '../use-case/DeleteAllSongsUseCase';
 
 import PopulateUseCase from '../use-case/PopulateUseCase';
 import SaveSongsMongodb from '../repository/SaveSongsMongodb';
+import SpofityRequestError from '../../../domain/errors/SpofityRequestError';
 
-export default class DatabasePingRoute implements IRoute {
+export default class PopulateRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
         const api = new Api(new AxiosRequestClient());
-        const spofifyAuthRepository = new SpofifyAuthRepository(api);
-        const spofifyAuthUseCase = new SpofifyAuthUseCase(spofifyAuthRepository);
-        const getAllByArtistIdSpotifyRepository = new GetAllByArtistIdSpotifyRepository(api);
-        const getAllByArtistIdUseCase = new GetAllByArtistIdUseCase(getAllByArtistIdSpotifyRepository);
-        const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofifyRepository(api);
+        const authSpotify = new AuthSpofify(api);
+        const authUseCase = new AuthUseCase(authSpotify);
+        const getAllAlbumsByArtistIdSpotify = new GetAllAlbumsByArtistIdSpotify(api);
+        const getAllAlbumsByArtistIdUseCase = new GetAllAlbumsByArtistIdUseCase(getAllAlbumsByArtistIdSpotify);
+        const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofify(api);
         const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
-        const deleteAllSongsMongodbRepository = new DeleteAllSongsMongodbRepository(database);
+        const deleteAllSongsMongodbRepository = new DeleteAllSongsMongodb(database);
         const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsMongodbRepository);
 
         const repository = new SaveSongsMongodb(database);
         const useCase = new PopulateUseCase(
-            repository, spofifyAuthUseCase, getAllByArtistIdUseCase,
+            repository, authUseCase, getAllAlbumsByArtistIdUseCase,
             getSongsByAlbumIdUseCase, deleteAllSongsUseCase
         );
 
@@ -49,11 +50,16 @@ export default class DatabasePingRoute implements IRoute {
                     const { ids } = request.query;
                     const clientId = process.env.SPOTIFY_CLIENT_ID!!;
                     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
+
                     const result = await useCase.exec(clientId, clientSecret, ids);
+
                     return h.response(result);
                 } catch (error) {
-                    console.error(error);
-                    return h.response({ success: false, error });
+                    console.error('PopulateRoute', error);
+                    if (error instanceof SpofityRequestError) {
+                        return h.response({ message: error.message }).code(error.code);
+                    }
+                    return h.response({ message: error.message });
                 }
             }
         });

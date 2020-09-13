@@ -1,16 +1,17 @@
 import * as Bluebird from 'bluebird';
 import Respository from "../../../domain/Repository";
 import UseCase from "../../../domain/UseCase";
-import GetAllByArtistIdUseCase from "../../albums/use-case/GetAllByArtistIdUseCase";
-import SpofifyAuthUseCase from "../../auth/user-case/SpofifyAuthUseCase";
+import GetAllAlbumsByArtistIdUseCase from "../../albums/use-case/GetAllAlbumsByArtistIdUseCase";
+import AuthUseCase from "../../auth/user-case/AuthUseCase";
 import GetSongsByAlbumIdUseCase from './GetSongsByAlbumIdUseCase';
 import DeleteAllSongsUseCase from './DeleteAllSongsUseCase';
+import Constants from '../../../helpers/Constants';
 
 export default class PopulateUseCase extends UseCase<any> {
     constructor(
         protected repository: Respository<any>,
-        private spofifyAuthUseCase: SpofifyAuthUseCase,
-        private getAllByArtistIdUseCase: GetAllByArtistIdUseCase,
+        private authUseCase: AuthUseCase,
+        private getAllAlbumsByArtistIdUseCase: GetAllAlbumsByArtistIdUseCase,
         private getSongsByAlbumIdUseCase: GetSongsByAlbumIdUseCase,
         private deleteAllSongsUseCase: DeleteAllSongsUseCase
     ) {
@@ -18,14 +19,14 @@ export default class PopulateUseCase extends UseCase<any> {
     }
 
     async exec(clientId: string, secretKey: string, ids: string): Promise<any> {
-        const authResponse = await this.spofifyAuthUseCase.exec(clientId, secretKey);
+        const authResponse = await this.authUseCase.exec(clientId, secretKey);
 
         const artistIds: Array<string> = ids.split(',');
 
         await this.deleteAllSongsUseCase.exec();
-        return await Promise.all(artistIds.map(async id => {
-            const albumIds = await this.getAllByArtistIdUseCase.exec(
-                authResponse.access_token, authResponse.token_type, id
+        return await Promise.all(artistIds.map(async artistId => {
+            const albumIds = await this.getAllAlbumsByArtistIdUseCase.exec(
+                authResponse.access_token, authResponse.token_type, artistId
             );
 
             Bluebird.map(albumIds, async (albumId: string) => {
@@ -33,8 +34,8 @@ export default class PopulateUseCase extends UseCase<any> {
                     authResponse.access_token, authResponse.token_type, albumId
                 );
 
-                await Bluebird.delay(3000);
-            }, { concurrency: 10 });
+                await Bluebird.delay(Constants.POPULATE_DELAY);
+            }, { concurrency: Constants.POPULATE_CONCURRENCY });
 
             return albumIds;
         }));

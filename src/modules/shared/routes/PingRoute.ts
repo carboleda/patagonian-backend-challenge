@@ -1,20 +1,22 @@
 import * as Hapi from '@hapi/hapi';
 import IRoute from '../../../domain/IRoute';
-import DatabasePingUseCase from '../use-case/DatabasePingUseCase';
-import DatabasePingRepository from '../repository/DatabasePingRepository';
 import Database from '../../../datasource/database';
+import PingUseCase from '../use-case/PingUseCase';
+import PingMongodb from '../repository/PingMongodb';
 
-export default class DatabasePingRoute implements IRoute {
+export default class PingRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
+        const repository = new PingMongodb(database);
+        const useCase = new PingUseCase(repository);
+
         server.route({
             method: 'GET',
             path: '/api/v1/ping',
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
-                    const repository = new DatabasePingRepository(database);
-                    const useCase = new DatabasePingUseCase(repository);
                     const pong = await useCase.exec();
-                    return h.response({ success: pong });
+
+                    return h.response({ pong });
                 } catch (error) {
                     return h.response({ success: false, error });
                 }

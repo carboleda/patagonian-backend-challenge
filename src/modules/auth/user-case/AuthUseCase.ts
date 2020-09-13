@@ -1,7 +1,7 @@
 import UseCase from "../../../domain/UseCase";
 
-export default class SpofifyAuthUseCase extends UseCase<any> {
+export default class AuthUseCase extends UseCase<any> {
     async exec(clientId: string, secretKey: string): Promise<any> {
-        return this.repository.exec(clientId, secretKey);
+        return await this.repository.exec(clientId, secretKey);
     }
 }

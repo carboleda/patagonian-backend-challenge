@@ -4,22 +4,22 @@ import Api from "../../../datasource/rest-api/Api";
 import Respository from "../../../domain/Repository";
 import SpofityRequestError from "../../../domain/errors/SpofityRequestError";
 
-export default class GetSongsByAlbumIdSpofify extends Respository<Api> {
-    private static URL: string = 'https://api.spotify.com/v1/albums/{albumId}/tracks?limit={limit}&offset={offset}';
+export default class GetAllAlbumsByArtistIdSpotify extends Respository<Api> {
+    private static URL: string = 'https://api.spotify.com/v1/artists/{artistId}/albums?limit={limit}&offset={offset}';
 
     async exec(
-        accessToken: string, tokenType: string, albumId: string,
+        accessToken: string, tokenType: string, artistId: string,
         limit: number = Constants.PAGING_DEFAULT_LIMIT,
         offset: number = Constants.PAGING_DEFAULT_OFFSET
     ): Promise<any> {
         try {
             const response = await this.dataSource.request({
-                url: GetSongsByAlbumIdSpofify.URL,
+                url: GetAllAlbumsByArtistIdSpotify.URL,
                 method: Methods.GET,
                 headers: {
                     Authorization: `${tokenType} ${accessToken}`
                 }
-            }, { albumId, limit, offset });
+            }, { artistId, limit, offset });
 
             return response.data;
         } catch(error) {

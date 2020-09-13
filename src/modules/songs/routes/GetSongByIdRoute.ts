@@ -4,8 +4,9 @@ import IRoute from '../../../domain/IRoute';
 import Database from '../../../datasource/database';
 import GetSongByIdMongodb from '../repository/GetSongByIdMongodb';
 import GetSongByIdUseCase from '../use-case/GetSongByIdUseCase';
+import SongNotFoundError from '../../../domain/errors/SongNotFoundError';
 
-export default class GetSongsRoute implements IRoute {
+export default class GetSongByIdRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
         const repository = new GetSongByIdMongodb(database);
         const useCase = new GetSongByIdUseCase(repository);
@@ -23,11 +24,16 @@ export default class GetSongsRoute implements IRoute {
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
                     const { songId } = request.params;
+
                     const song = await useCase.exec(songId);
 
                     return h.response(song);
                 } catch (error) {
-                    return h.response({ message: error.message }).code(404);
+                    console.error('GetSongByIdRoute', error);
+                    if (error instanceof SongNotFoundError) {
+                        return h.response({ message: error.message }).code(error.code);
+                    }
+                    return h.response({ message: error.message });
                 }
             }
         });

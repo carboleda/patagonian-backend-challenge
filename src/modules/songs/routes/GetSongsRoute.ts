@@ -25,12 +25,14 @@ export default class GetSongsRoute implements IRoute {
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
                     const { origin, pathname } = request.url;
-                    const endpointPath = `${origin}${pathname}`;
                     const { artistName, limit, offset } = request.query;
+                    const endpointPath = `${origin}${pathname}`;
+
                     const songs = await useCase.exec(endpointPath, artistName, limit, offset);
 
                     return h.response(songs);
                 } catch (error) {
+                    console.error('GetSongsRoute', error);
                     return h.response({ success: false, error });
                 }
             }
