@@ -6,11 +6,11 @@ type RequestError = {
 }
 
 export default class SpofityRequestError extends Error {
-    public code: number = 500;
+    public code: number;
 
-    constructor(cause: RequestError | null = null) {
+    constructor(public cause: RequestError | null = null) {
         super(`Spotify - ${cause?.message}`);
         this.code = cause?.response?.status || 500;
-        // this.cause = cause;
+        this.cause = cause;
     }
 }

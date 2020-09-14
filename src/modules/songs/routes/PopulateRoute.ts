@@ -24,10 +24,10 @@ export default class PopulateRoute implements IRoute {
         const authUseCase = new AuthUseCase(authSpotify);
         const getAllAlbumsByArtistIdSpotify = new GetAllAlbumsByArtistIdSpotify(api);
         const getAllAlbumsByArtistIdUseCase = new GetAllAlbumsByArtistIdUseCase(getAllAlbumsByArtistIdSpotify);
-        const getSongsByAlbumIdSpofifyRepository = new GetSongsByAlbumIdSpofify(api);
-        const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofifyRepository);
-        const deleteAllSongsMongodbRepository = new DeleteAllSongsMongodb(database);
-        const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsMongodbRepository);
+        const getSongsByAlbumIdSpofify = new GetSongsByAlbumIdSpofify(api);
+        const getSongsByAlbumIdUseCase = new GetSongsByAlbumIdUseCase(getSongsByAlbumIdSpofify);
+        const deleteAllSongsMongodb = new DeleteAllSongsMongodb(database);
+        const deleteAllSongsUseCase = new DeleteAllSongsUseCase(deleteAllSongsMongodb);
 
         const repository = new SaveSongsMongodb(database);
         const useCase = new PopulateUseCase(
@@ -50,8 +50,9 @@ export default class PopulateRoute implements IRoute {
                     const { ids } = request.query;
                     const clientId = process.env.SPOTIFY_CLIENT_ID!!;
                     const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
+                    const artistIds: Array<string> = ids.split(',');
 
-                    const result = await useCase.exec(clientId, clientSecret, ids);
+                    const result = await useCase.exec(clientId, clientSecret, artistIds);
 
                     return h.response(result);
                 } catch (error) {

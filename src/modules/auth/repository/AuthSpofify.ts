@@ -8,8 +8,8 @@ import SpofityRequestError from "../../../domain/errors/SpofityRequestError";
 export default class AuthSpofify extends Respository<Api> {
     private static URL: string = 'https://accounts.spotify.com/api/token';
 
-    async exec(clientId: string, secretKey: string): Promise<any> {
-        const authorization = Base64.encode(`${clientId}:${secretKey}`);
+    async exec(clientId: string, clientSecret: string): Promise<any> {
+        const authorization = Base64.encode(`${clientId}:${clientSecret}`);
         const payload = Qs.stringify({ grant_type: 'client_credentials' });
 
         try {

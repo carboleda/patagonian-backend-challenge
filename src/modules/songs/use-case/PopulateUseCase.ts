@@ -18,38 +18,46 @@ export default class PopulateUseCase extends UseCase<any> {
         super(repository);
     }
 
-    async exec(clientId: string, secretKey: string, ids: string): Promise<any> {
-        const authResponse = await this.authUseCase.exec(clientId, secretKey);
-
-        const artistIds: Array<string> = ids.split(',');
+    async exec(clientId: string, clientSecret: string, artistIds: Array<string>): Promise<any> {
+        const authResponse = await this.authUseCase.exec(clientId, clientSecret);
 
         await this.deleteAllSongsUseCase.exec();
-        return await Promise.all(artistIds.map(async artistId => {
-            const albumIds = await this.getAllAlbumsByArtistIdUseCase.exec(
-                authResponse.access_token, authResponse.token_type, artistId
-            );
 
-            Bluebird.map(albumIds, async (albumId: string) => {
-                await this.getSongsByAlbum(
-                    authResponse.access_token, authResponse.token_type, albumId
-                );
+        const albumIds = await this.getAlbumByArtist(
+            authResponse.access_token, authResponse.token_type, artistIds
+        );
 
-                await Bluebird.delay(Constants.POPULATE.DELAY);
-            }, { concurrency: Constants.POPULATE.CONCURRENCY });
+        this.getSongsByAlbumAndSave(authResponse.access_token, authResponse.token_type, albumIds);
 
-            return albumIds;
-        }));
+        return { artists: artistIds.length, albums: albumIds.length };
     }
 
-    async getSongsByAlbum(accessToken: string, tokenType: string, albumId: string) {
-        try {
-            const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(
-                accessToken, tokenType, albumId
+    async getAlbumByArtist(
+        accessToken: string, tokenType: string, artistIds: Array<string>
+    ): Promise<Array<string>> {
+        return await Bluebird.reduce(artistIds, async (accIds: Array<string>, artistId: string) => {
+            const albumIds = await this.getAllAlbumsByArtistIdUseCase.exec(
+                accessToken, tokenType, artistId
             );
-            songs.forEach(song => console.log(song.name));
-            return await this.repository.exec(songs);
-        } catch (error) {
-            console.error(`getSongsByAlbum::album(${albumId})`, error.message, error.config);
-        }
+
+            return [...accIds, ...albumIds];
+        }, []);
+    }
+
+    async getSongsByAlbumAndSave(accessToken: string, tokenType: string, albumIds: Array<string>) {
+        await Bluebird.map(albumIds, async (albumId: string) => {
+            try {
+                const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(
+                    accessToken, tokenType, albumId
+                );
+                songs.forEach(song => console.log(song.name));
+
+                return await this.repository.exec(songs);
+            } catch (error) {
+                console.error(`getSongsByAlbum::album(${albumId})`, error.message);
+            } finally {
+                await Bluebird.delay(Constants.POPULATE.DELAY);
+            }
+        }, { concurrency: Constants.POPULATE.CONCURRENCY });
     }
 }

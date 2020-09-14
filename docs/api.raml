@@ -48,26 +48,40 @@ mediaType: application/json
                 "limit": 2,
                 "offset": 20,
                 "total": 500,
-                "next": "http://localhost/api/v1/songs?offset=22&limit=2&artistName=Red+Hot+Chili",
-                "previous": "http://localhost/api/v1/songs?offset=18&limit=2&artistName=Red+Hot+Chili"
+                "next": "http://127.0.0.1/api/v1/songs?offset=22&limit=2&artistName=Red+Hot+Chili",
+                "previous": "http://127.0.0.1/api/v1/songs?offset=18&limit=2&artistName=Red+Hot+Chili"
               }
+      400:
+          body:
+            application/json:
+              example: |
+                {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
   /populate:
     description: Populate songs with Spofify data
     get:
       description: Loads into a database all the songs from a list of Artist's IDs from Spotify’s public Web API.
       queryParameters:
         ids:
-          description: "A comma-separated list of the Spotify IDs for the Artists. Maximum: 50 IDs."
+          description: "A comma-separated list of the Spotify Artists IDs. Maximum: 50 IDs."
           required: true
           minLength: 22
+          maxLength: 1149
           type: string
-          example: "6rqhFgbbKwnb9MLmUQDhG6,0LyfQWJT6nXafLPZqxe9Of"
+          example: "53A0W3U0s8diEn9RhXQhVz,0oSGxfWSnnOXhD2fKuz2Gy"
       responses:
         200:
           body:
             application/json:
               example: |
-                {"message": "Song database was successfully populated", count: 500}
+                {
+                  "artists": 2,
+                  "albums": 649
+                }
+        400:
+          body:
+            application/json:
+              example: |
+                {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
         500:
           body:
             application/json:
@@ -111,6 +125,11 @@ mediaType: application/json
                   "type": "track",
                   "uri": "spotify:track:2TpxZ7JUBn3uw46aR7qd6V"
                 }
+        400:
+          body:
+            application/json:
+              example: |
+                {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
         404:
           body:
             application/json:

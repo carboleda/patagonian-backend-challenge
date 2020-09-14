@@ -34,3 +34,8 @@
         ```
         npm run dev
         ```
+
+1. Execute test
+    ```
+    npm test -i test/modules/songs/GetAllAlbumsByArtistIdUseCase.test.ts
+    ```

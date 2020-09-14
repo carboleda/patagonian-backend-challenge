@@ -17,6 +17,12 @@ export default class Server {
             host: '0.0.0.0'
         });
         this._instance.validator(require('@hapi/joi'));
+        this._instance.ext('onPreHandler', (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+            const { href } = request.url;
+            console.debug(`onPreHandler::request ${request.method} > ${href}`);
+            return h.continue;
+        });
+
         await Router.loadRoutes(this._instance, this.database);
         await this._instance.start();
         await this.database.connect();
