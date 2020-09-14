@@ -14,11 +14,7 @@ export default class Server {
             host: '0.0.0.0'
         });
         this._instance.validator(require('@hapi/joi'));
-        this._instance.ext('onPreHandler', (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
-            const { href } = request.url;
-            console.debug(`onPreHandler::request ${request.method} > ${href}`);
-            return h.continue;
-        });
+        this.setupLogger();
 
         await Router.loadRoutes(this._instance, this.database);
         await this._instance.start();
@@ -28,5 +24,13 @@ export default class Server {
 
     public async stop() {
         this._instance?.stop();
+    }
+
+    private setupLogger() {
+        this._instance?.ext('onPreHandler', (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
+            const { href } = request.url;
+            console.debug(`Request ${request.method.toUpperCase()} > ${href}`);
+            return h.continue;
+        });
     }
 }

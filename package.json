@@ -17,7 +17,16 @@
     "copy:env:dev": "./node_modules/.bin/cpy './config/.env.dev' './' --rename='.env' --overwrite",
     "copy:all": "./node_modules/.bin/run-s copy:config copy:initdb"
   },
-  "keywords": [],
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "hapijs",
+    "mongodb",
+    "docker",
+    "jest",
+    "raml-documentation",
+    "backend"
+  ],
   "author": "carboleda",
   "repository": {
     "type": "git",
