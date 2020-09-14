@@ -22,7 +22,6 @@ export default class AuthSpofify extends Respository<Api> {
                 }
             }, payload);
 
-            // TODO: VALIDATE HTTP STATUS AND THROW HANDLE ERROR
             return response.data;
         } catch(error) {
             throw new SpofityRequestError(error);

@@ -24,7 +24,6 @@ services:
     networks:
       songs-net:
         ipv4_address: 172.0.1.3
-    # restart: always
     environment:
       MONGO_INITDB_DATABASE: challenge
       MONGO_INITDB_ROOT_USERNAME: carboleda
@@ -38,4 +37,3 @@ networks:
     ipam:
       config:
         - subnet: '172.0.1.0/24'
-        #- gateway: '172.0.1.1'

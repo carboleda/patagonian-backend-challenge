@@ -1,4 +1,4 @@
-import * as DotEnv from 'dotenv';
+import LoadEnv from './helpers/LoadEnv';
 import * as Hapi from '@hapi/hapi';
 import Database from './datasource/database';
 import Router from './Router';
@@ -9,11 +9,8 @@ export default class Server {
     constructor(private database: Database<any>) {}
 
     public async start() {
-        DotEnv.config({ path: `${process.cwd()}/.env` });
-
-        // TODO: EXTERNALIZE PORT IN .ENV OR DOCKER-COMPOSE FILE
         this._instance = Hapi.server({
-            port: 8888,
+            port: LoadEnv.PORT,
             host: '0.0.0.0'
         });
         this._instance.validator(require('@hapi/joi'));

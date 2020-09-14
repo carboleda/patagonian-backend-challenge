@@ -1,4 +1,4 @@
-import('../../LoadEnv');
+import LoadEnv from '../../../src/helpers/LoadEnv';
 import Api from '../../../src/datasource/rest-api/Api';
 import AxiosRequestClient from '../../../src/datasource/rest-api/AxiosRequestClient';
 import AuthSpofify from '../../../src/modules/auth/repository/AuthSpofify';
@@ -11,8 +11,8 @@ describe('Test Spotify authorization', () => {
             const api = new Api(new AxiosRequestClient());
             const authRepository = new AuthSpofify(api);
             const authUseCase = new AuthUseCase(authRepository);
-            const clientId = process.env.SPOTIFY_CLIENT_ID!!;
-            const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
+            const clientId = LoadEnv.SPOTIFY_CLIENT_ID;
+            const clientSecret = LoadEnv.SPOTIFY_CLIENT_SECRET;
             console.log(clientId, clientSecret);
 
             // Act

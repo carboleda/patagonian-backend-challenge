@@ -19,6 +19,10 @@
   },
   "keywords": [],
   "author": "carboleda",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carboleda/patagonian-backend-challenge"
+  },
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^20.0.0",

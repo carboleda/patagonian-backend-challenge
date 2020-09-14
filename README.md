@@ -9,11 +9,11 @@
 
     **IMPORTANT:** The next commands must be executed on root project directory
 
-    1. Execute database and server
+    1. Execute and force build database and server
         ```
         docker-compose up --build
         ```
-    1. Execute and force build database and server
+    1. Execute database and server
         ```
         docker-compose up
         ```

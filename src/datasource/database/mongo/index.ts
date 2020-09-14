@@ -1,3 +1,4 @@
+import LoadEnv from '../../../helpers/LoadEnv';
 import { MongoClient, Db } from 'mongodb';
 import Database from '../';
 
@@ -14,7 +15,7 @@ export default class MongoDatabase implements Database<Db> {
 
     async connect(): Promise<void> {
         // Connection URI
-        const uri: string = process.env.DATABASE_CONNECTION_URI!!;
+        const uri: string = LoadEnv.DATABASE_CONNECTION_URI!!;
 
         // Create a new MongoClient
         this._instance = new MongoClient(uri, { useUnifiedTopology: true });

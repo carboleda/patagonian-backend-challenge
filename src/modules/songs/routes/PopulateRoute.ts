@@ -1,3 +1,4 @@
+import LoadEnv from '../../../helpers/LoadEnv';
 import * as Hapi from '@hapi/hapi';
 import * as Joi from '@hapi/joi';
 import IRoute from '../../../domain/IRoute';
@@ -48,8 +49,8 @@ export default class PopulateRoute implements IRoute {
             handler: async (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                 try {
                     const { ids } = request.query;
-                    const clientId = process.env.SPOTIFY_CLIENT_ID!!;
-                    const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
+                    const clientId = LoadEnv.SPOTIFY_CLIENT_ID;
+                    const clientSecret = LoadEnv.SPOTIFY_CLIENT_SECRET;
                     const artistIds: Array<string> = ids.split(',');
 
                     const result = await useCase.exec(clientId, clientSecret, artistIds);

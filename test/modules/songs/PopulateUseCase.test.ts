@@ -1,4 +1,4 @@
-import('../../LoadEnv');
+import LoadEnv from '../../../src/helpers/LoadEnv';
 import Api from '../../../src/datasource/rest-api/Api';
 import MongoDatabase from '../../../src/datasource/database/mongo';
 import AxiosRequestClient from '../../../src/datasource/rest-api/AxiosRequestClient';
@@ -79,8 +79,8 @@ describe('Test get all albums by artist\'s id  from Spotify', () => {
     test('Authorization is success when data is correct', async () => {
         try {
             // Arrange
-            const clientId = process.env.SPOTIFY_CLIENT_ID!!;
-            const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!!;
+            const clientId = LoadEnv.SPOTIFY_CLIENT_ID;
+            const clientSecret = LoadEnv.SPOTIFY_CLIENT_SECRET;
             const artistIds = ['53A0W3U0s8diEn9RhXQhVz', '0oSGxfWSnnOXhD2fKuz2Gy'];
             getAllAlbumsByArtistIdSpotify.exec = jest.fn(getAllAlbumsByArtistIdSpotify.exec)
                 .mockReturnValue(Promise.resolve(albumsGoodResponse));
