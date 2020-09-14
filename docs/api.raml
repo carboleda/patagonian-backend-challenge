@@ -62,10 +62,10 @@ mediaType: application/json
       description: Loads into a database all the songs from a list of Artist's IDs from Spotify’s public Web API.
       queryParameters:
         ids:
-          description: "A comma-separated list of the Spotify Artists IDs. Maximum: 50 IDs."
+          description: "A comma-separated list of the Spotify Artist's IDs. Maximum: 20 IDs."
           required: true
           minLength: 22
-          maxLength: 1149
+          maxLength: 659
           type: string
           example: "53A0W3U0s8diEn9RhXQhVz,0oSGxfWSnnOXhD2fKuz2Gy"
       responses:

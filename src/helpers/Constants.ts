@@ -19,7 +19,11 @@ export default class Constants {
         MAX_LIMIT: 50,
         DEFAULT_OFFSET: 0
     };
-    public static POPULATE: Populate = {
+    public static POPULATE_ALBUMS: Populate = {
+        CONCURRENCY: 5,
+        DELAY: 1000
+    };
+    public static POPULATE_SONGS: Populate = {
         CONCURRENCY: 10,
         DELAY: 3000
     };

@@ -35,29 +35,33 @@ export default class PopulateUseCase extends UseCase<any> {
     async getAlbumByArtist(
         accessToken: string, tokenType: string, artistIds: Array<string>
     ): Promise<Array<string>> {
-        return await Bluebird.reduce(artistIds, async (accIds: Array<string>, artistId: string) => {
+        const matAlbumIds = await Bluebird.map(artistIds, async (artistId: string, index: number) => {
             const albumIds = await this.getAllAlbumsByArtistIdUseCase.exec(
                 accessToken, tokenType, artistId
             );
+            console.debug(`getAlbumByArtist:: index: ${index}, artistId: ${artistId}, albums: ${albumIds.length}`);
 
+            await Bluebird.delay(Constants.POPULATE_ALBUMS.DELAY);
+
+            return albumIds;
+        }, { concurrency: Constants.POPULATE_ALBUMS.CONCURRENCY });
+
+        return matAlbumIds.reduce((accIds: Array<string>, albumIds: Array<string>) => {
             return [...accIds, ...albumIds];
-        }, []);
+        });
     }
 
     async getSongsByAlbumAndSave(accessToken: string, tokenType: string, albumIds: Array<string>) {
-        await Bluebird.map(albumIds, async (albumId: string) => {
-            try {
-                const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(
-                    accessToken, tokenType, albumId
-                );
-                songs.forEach(song => console.log(song.name));
+        await Bluebird.map(albumIds, async (albumId: string, index: number) => {
+            const songs: Array<any> = await this.getSongsByAlbumIdUseCase.exec(
+                accessToken, tokenType, albumId
+            );
+            console.debug(`getSongsByAlbumAndSave:: index: ${index}, albumId: ${albumId}, songs: ${songs.length}`);
+            songs.forEach(song => console.log(song.name));
 
-                return await this.repository.exec(songs);
-            } catch (error) {
-                console.error(`getSongsByAlbum::album(${albumId})`, error.message);
-            } finally {
-                await Bluebird.delay(Constants.POPULATE.DELAY);
-            }
-        }, { concurrency: Constants.POPULATE.CONCURRENCY });
+            await Bluebird.delay(Constants.POPULATE_SONGS.DELAY);
+
+            return await this.repository.exec(songs);
+        }, { concurrency: Constants.POPULATE_SONGS.CONCURRENCY });
     }
 }
