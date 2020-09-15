@@ -31,7 +31,11 @@
     "raml-documentation",
     "backend"
   ],
-  "author": "carboleda",
+  "author": {
+    "name": "carboleda",
+    "email": "arbofercho@gmail.com",
+    "url": "https://carlosarboleda.co"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/carboleda/patagonian-backend-challenge"
