@@ -42,7 +42,7 @@ export default class PopulateRoute implements IRoute {
             options: {
                 validate: {
                     query: {
-                        ids: Joi.string().min(22).max(689).required()
+                        ids: Joi.string().min(22).max(459).required()
                     }
                 }
             },

@@ -33,7 +33,4 @@ services:
       - ./mongo-volumes:/data/db
 networks:
   songs-net:
-    external: false
-    ipam:
-      config:
-        - subnet: '172.0.1.0/24'
+    external: true

@@ -65,7 +65,7 @@ mediaType: application/json
           description: "A comma-separated list of the Spotify Artist's IDs. Maximum: 20 IDs."
           required: true
           minLength: 22
-          maxLength: 659
+          maxLength: 459
           type: string
           example: "53A0W3U0s8diEn9RhXQhVz,0oSGxfWSnnOXhD2fKuz2Gy"
       responses:
@@ -82,13 +82,8 @@ mediaType: application/json
             application/json:
               example: |
                 {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
-              example: |
                 {"message": "Invalid Artist ID 1r4hJ1h58CWw"}
-        500:
-          body:
-            application/json:
-              example: |
-                {"message": "Unexpected error while populate the song database"}
+                {"message": "Spotify - Request failed with status code 400"}
   /{songId}:
     description: Song entity
     get:
@@ -131,7 +126,7 @@ mediaType: application/json
           body:
             application/json:
               example: |
-                {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
+                {"statusCode": 400, "error": "Bad Request", "message": "Invalid request params input"}
         404:
           body:
             application/json:

@@ -40,11 +40,11 @@ export default class PopulateUseCase extends UseCase<any> {
 
         const authResponse = await this.authUseCase.exec(clientId, clientSecret);
 
-        await this.deleteAllSongsUseCase.exec();
-
         const albumIds = await this.getAlbumsForAllArtists(
             authResponse.access_token, authResponse.token_type, artistIds
         );
+
+        await this.deleteAllSongsUseCase.exec();
 
         this.getSongsByAlbumsAndSave(authResponse.access_token, authResponse.token_type, albumIds);
 
