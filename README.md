@@ -8,7 +8,7 @@
     - [Resources](#resources)
     - [Instructions](#instructions)
 - [Docker compose commands](#docker-compose-commands)
-- [Execute on development mode](#execute-on-development-mode)
+- [Execute on development mode](#execute-on-development-mode-optional)
 
 
 # Project implementation summary
@@ -56,7 +56,7 @@ This project was implemented using the next tools or libraries:
     ```bash
     Server running on http://0.0.0.0:8888
     ```
-    - If you don't see this log, please try executing database and server by separated (two terminal):
+    - If you don't see this log, please try executing database and server by separated (two terminal), first the database and when it's ready then the server:
         ```bash
         docker-compose up database
         docker-compose up server
