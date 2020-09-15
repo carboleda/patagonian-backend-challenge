@@ -7,8 +7,9 @@
 - [Run load script](#run-load-script)
     - [Resources](#resources)
     - [Instructions](#instructions)
-- [Docker compose commands](#docker-compose-commands)
-- [Execute on development mode](#execute-on-development-mode-optional)
+- [Adicional information (Optional)](#adicional-information-optional)
+    - [Docker compose commands](#docker-compose-commands)
+    - [Execute on development mode](#execute-on-development-mode)
 
 
 # Project implementation summary
@@ -35,7 +36,7 @@ This project was implemented using the next tools or libraries:
 
 1. Create and Spotify application [here](https://developer.spotify.com/documentation/general/guides/app-settings/), get your clientId and clientSecret tokens and setup these in `config/.env.production` and `config/.env.dev`.
 1. Install Docker Engine and Docker Compose services, then start Docker Engine.
-1. Open a terminal or console.
+1. Open a terminal or console and navigate to project directory.
 1. Create the docker network bridge used to allows communication between both containers server and database:
 
     ```bash
@@ -92,8 +93,9 @@ These are the instruction for run script that loads into a database all the song
 3. Execute the endpoint `/songs/populate`. Await for response that say you how much artists and albums are will be processed.
 4. When the endpoint response, is possible that songs continue loading in background because can be a long process (depend on amount of artists) but you can check the log in the terminal.
 
+# Adicional information (Optional)
 
-# Docker compose commands
+### **Docker compose commands**
 
 **IMPORTANT:** The next commands must be executed on root project directory.
 
@@ -126,7 +128,7 @@ These are the instruction for run script that loads into a database all the song
     docker-compose up --build database
     ```
 
-# Execute on development mode (Optional)
+### **Execute on development mode**
 
 **IMPORTANT:** The next commands must be executed on root project directory.
 
