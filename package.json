@@ -7,8 +7,8 @@
     "start": "node dist/src/index.js",
     "dev": "./node_modules/.bin/run-s copy:env:dev build:nodemon",
     "test": "jest",
-    "prebuild": "rm -Rf dist",
     "build": "./node_modules/.bin/tsc",
+    "prebuild": "rm -Rf dist",
     "build:nodemon": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
     "build:doc": "raml2html -i docs/api.raml -o docs/api.html",
     "postbuild": "npm run copy:all",
@@ -16,6 +16,10 @@
     "copy:initdb": "./node_modules/.bin/cpy 'src/init-mongo.js' ./dist/ --no-overwrite --parents",
     "copy:env:dev": "./node_modules/.bin/cpy './config/.env.dev' './' --rename='.env' --overwrite",
     "copy:all": "./node_modules/.bin/run-s copy:config copy:initdb"
+  },
+  "engines": {
+    "node": "12.8.3",
+    "npm": "6.9.0"
   },
   "keywords": [
     "nodejs",
@@ -50,7 +54,7 @@
     "glob": "^7.1.6",
     "mongodb": "^3.6.1",
     "npm-run-all": "4.1.5",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.2"
   },
   "devDependencies": {
     "@types/jest": "25.1.4",

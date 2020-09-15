@@ -3,9 +3,9 @@ import * as Qs from 'querystring';
 import { Methods } from "../../../datasource/rest-api/Client";
 import Api from "../../../datasource/rest-api/Api";
 import Respository from "../../../domain/Repository";
-import SpofityRequestError from "../../../domain/errors/SpofityRequestError";
+import SpotifyRequestError from "../../../domain/errors/SpotifyRequestError";
 
-export default class AuthSpofify extends Respository<Api> {
+export default class AuthSpotify extends Respository<Api> {
     private static URL: string = 'https://accounts.spotify.com/api/token';
 
     async exec(clientId: string, clientSecret: string): Promise<any> {
@@ -14,7 +14,7 @@ export default class AuthSpofify extends Respository<Api> {
 
         try {
             const response = await this.dataSource.request({
-                url: AuthSpofify.URL,
+                url: AuthSpotify.URL,
                 method: Methods.POST,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,7 +24,7 @@ export default class AuthSpofify extends Respository<Api> {
 
             return response.data;
         } catch(error) {
-            throw new SpofityRequestError(error);
+            throw new SpotifyRequestError(error);
         }
     }
 }

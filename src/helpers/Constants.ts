@@ -14,7 +14,7 @@ export default class Constants {
         DEFAULT_LIMIT: 20,
         DEFAULT_OFFSET: 0
     };
-    public static SPOFIFY_API_PAGING: Paging = {
+    public static SPOTIFY_API_PAGING: Paging = {
         DEFAULT_LIMIT: 20,
         MAX_LIMIT: 50,
         DEFAULT_OFFSET: 0

@@ -4,7 +4,7 @@ import IRoute from '../../../domain/IRoute';
 import Database from '../../../datasource/database';
 import GetSongByIdMongodb from '../repository/GetSongByIdMongodb';
 import GetSongByIdUseCase from '../use-case/GetSongByIdUseCase';
-import SongNotFoundError from '../../../domain/errors/SongNotFoundError';
+import ApiError from '../../../domain/errors/ApiError';
 
 export default class GetSongByIdRoute implements IRoute {
     async register(server: Hapi.Server, database: Database<any>): Promise<any> {
@@ -30,7 +30,7 @@ export default class GetSongByIdRoute implements IRoute {
                     return h.response(song);
                 } catch (error) {
                     console.error('GetSongByIdRoute', error);
-                    if (error instanceof SongNotFoundError) {
+                    if (error instanceof ApiError) {
                         return h.response({ message: error.message }).code(error.code);
                     }
                     return h.response({ message: error.message });

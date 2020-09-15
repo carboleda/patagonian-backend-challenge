@@ -3,8 +3,8 @@ import Constants from "../../../helpers/Constants";
 
 export default class GetAllAlbumsByArtistIdUseCase extends UseCase<any> {
     async exec(accessToken: string, tokenType: string, artistId: string): Promise<Array<string>> {
-        const limit = Constants.SPOFIFY_API_PAGING.MAX_LIMIT!!;
-        let offset = Constants.SPOFIFY_API_PAGING.DEFAULT_OFFSET;
+        const limit = Constants.SPOTIFY_API_PAGING.MAX_LIMIT!!;
+        let offset = Constants.SPOTIFY_API_PAGING.DEFAULT_OFFSET;
         let hasMore = false;
         let albumIds = Array<string>();
 

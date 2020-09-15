@@ -57,7 +57,7 @@ mediaType: application/json
               example: |
                 {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
   /populate:
-    description: Populate songs with Spofify data
+    description: Populate songs with Spotify data
     get:
       description: Loads into a database all the songs from a list of Artist's IDs from Spotify’s public Web API.
       queryParameters:
@@ -82,6 +82,8 @@ mediaType: application/json
             application/json:
               example: |
                 {"statusCode": 400, "error": "Bad Request", "message": "Invalid request query input"}
+              example: |
+                {"message": "Invalid Artist ID 1r4hJ1h58CWw"}
         500:
           body:
             application/json:

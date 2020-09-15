@@ -39,3 +39,5 @@
     ```
     npm test -i test/modules/songs/GetAllAlbumsByArtistIdUseCase.test.ts
     ```
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b56bab70a41c51618ed)

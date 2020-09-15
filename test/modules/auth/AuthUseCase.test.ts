@@ -1,7 +1,7 @@
 import LoadEnv from '../../../src/helpers/LoadEnv';
 import Api from '../../../src/datasource/rest-api/Api';
 import AxiosRequestClient from '../../../src/datasource/rest-api/AxiosRequestClient';
-import AuthSpofify from '../../../src/modules/auth/repository/AuthSpofify';
+import AuthSpotify from '../../../src/modules/auth/repository/AuthSpotify';
 import AuthUseCase from '../../../src/modules/auth/user-case/AuthUseCase';
 
 describe('Test Spotify authorization', () => {
@@ -9,7 +9,7 @@ describe('Test Spotify authorization', () => {
         try {
             // Arrange
             const api = new Api(new AxiosRequestClient());
-            const authRepository = new AuthSpofify(api);
+            const authRepository = new AuthSpotify(api);
             const authUseCase = new AuthUseCase(authRepository);
             const clientId = LoadEnv.SPOTIFY_CLIENT_ID;
             const clientSecret = LoadEnv.SPOTIFY_CLIENT_SECRET;
@@ -29,7 +29,7 @@ describe('Test Spotify authorization', () => {
         try {
             // Arrange
             const api = new Api(new AxiosRequestClient());
-            const authRepository = new AuthSpofify(api);
+            const authRepository = new AuthSpotify(api);
             const authUseCase = new AuthUseCase(authRepository);
             const clientId = 'abadclientid';
             const clientSecret = 'abadclientsecret';

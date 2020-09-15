@@ -1,8 +1,7 @@
-export default class SongNotFoundError extends Error {
-    public readonly code = 404;
+import ApiError from "./ApiError";
 
-    constructor(private cause: Error | null = null) {
-        super('Song not found');
-        // this.cause = cause;
+export default class SongNotFoundError extends ApiError {
+    constructor(public cause: Error | null = null) {
+        super('Song not found', cause);
     }
 }

@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "07cf3502-090d-48db-aef1-a6dbd9867cf7",
+		"name": "Patagonian Backend Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Songs",
+			"item": [
+				{
+					"name": "/songs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/songs?artistName=Keane&limit=5&offset=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"songs"
+							],
+							"query": [
+								{
+									"key": "artistName",
+									"value": "Keane"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/songs/populate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/songs/populate?ids=53A0W3U0s8diEn9RhXQhVz,0oSGxfWnnOXhD2fKuz2Gy",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"songs",
+								"populate"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "53A0W3U0s8diEn9RhXQhVz,0oSGxfWnnOXhD2fKuz2Gy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/songs/{songId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/songs/64wbnXFqagHtP9tBEY2kHm",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"songs",
+								"64wbnXFqagHtP9tBEY2kHm"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Shared",
+			"item": [
+				{
+					"name": "/ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/v1/ping",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
