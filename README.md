@@ -1,5 +1,13 @@
 # Patagonian Backend Challenge
 
+- [Project implementation summary](#project-implementation-summary)
+- [Compiling and running the project](#compiling-and-running-the-project)
+    - [Requirements](#requirements)
+    - [Instructions](#instructions)
+- [Run load script](#run-load-script)
+    - [Resources](#resources)
+    - [Instructions](#instructions)
+
 # Project implementation summary
 
 This project was implemented using the next tools or libraries:
@@ -7,7 +15,7 @@ This project was implemented using the next tools or libraries:
 - Nodejs, Typescript, HapiJs, Mongodb and Docker.
 - For compile and run this project you only will need Docker and Docker compose since everything is encapsulated on a Docker image.
 - The Spotify is implemented using the [Client Credentials Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)
-- The server is runs in port `8888`.
+- The server runs in [http://127.0.0.1:8888](http://127.0.0.1:8888).
 
 # Compiling and running the project
 
@@ -95,9 +103,9 @@ This project was implemented using the next tools or libraries:
 
 ### **Resources**
 
-- [docs/api.html](docs/api.html)
-- [docs/postman/Patagonian Backend Challenge.postman_collection.json](docs/postman/Patagonian Backend Challenge.postman_collection.json)
-- [docs/postman/Patagonian Backend Challenge.postman_environment.json](docs/postman/Patagonian Backend Challenge.postman_environment.json)
+- `docs/api.html`
+- `docs/postman/Patagonian Backend Challenge.postman_collection.json`
+- `docs/postman/Patagonian Backend Challenge.postman_environment.json`
 - cURL commands
 
     ```bash
